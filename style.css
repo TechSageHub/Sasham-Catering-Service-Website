@@ -623,6 +623,25 @@ img {
     padding-top: 30px;
 }
 
+.footer-copy {
+    text-align: left;
+}
+
+.developer-credit {
+    font-size: 0.85rem;
+    margin-top: 5px;
+    color: #888;
+}
+
+.developer-credit a {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.developer-credit a:hover {
+    text-decoration: underline;
+}
+
 .scroll-top {
     width: 40px;
     height: 40px;
