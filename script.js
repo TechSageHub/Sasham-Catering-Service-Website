@@ -12,6 +12,7 @@ let slides = [];
 
 // Initialize Slides
 function initSlideshow() {
+    if (!heroBg) return;
     heroBg.innerHTML = ''; // Clear existing content
 
     heroImages.forEach((imgSrc, index) => {
@@ -30,6 +31,7 @@ function initSlideshow() {
 
 
 function changeHeroImage() {
+    if (!slides.length) return;
     const nextSlideIndex = (currentSlideIndex + 1) % slides.length;
 
     const currentSlide = slides[currentSlideIndex];
@@ -60,7 +62,9 @@ function changeHeroImage() {
 initSlideshow();
 
 // Auto change every 5 seconds
-setInterval(changeHeroImage, 5000);
+if (heroBg) {
+    setInterval(changeHeroImage, 5000);
+}
 
 // Navbar Scroll Effect
 window.addEventListener('scroll', function () {
@@ -72,25 +76,69 @@ window.addEventListener('scroll', function () {
     }
 });
 
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+
+function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    document.body.classList.toggle('dark-mode', isDark);
+
+    if (themeToggle) {
+        const icon = themeToggle.querySelector('i');
+        if (icon) {
+            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+        themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        themeToggle.setAttribute('aria-pressed', String(isDark));
+    }
+}
+
+let savedTheme = null;
+try {
+    savedTheme = localStorage.getItem('theme');
+} catch (error) {
+    // Ignore storage errors in restricted/private browsing modes.
+}
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+applyTheme(initialTheme);
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const nextTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        try {
+            localStorage.setItem('theme', nextTheme);
+        } catch (error) {
+            // Ignore storage errors in restricted/private browsing modes.
+        }
+    });
+}
+
 // Mobile Menu Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+}
 
 document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
+    if (hamburger && navMenu) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
 }));
 
 // Contact Form - WhatsApp Integration
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
     const name = document.getElementById('userName').value;
     const email = document.getElementById('userEmail').value;
@@ -106,18 +154,23 @@ contactForm.addEventListener('submit', function (e) {
 
 
 
-    window.open(whatsappURL, '_blank');
-});
+        window.open(whatsappURL, '_blank');
+    });
+}
 
 // Scroll Animation Observer
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target); // Animate only once
-        }
+if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target); // Animate only once
+            }
+        });
     });
-});
 
-const hiddenElements = document.querySelectorAll('.hidden');
-hiddenElements.forEach((el) => observer.observe(el));
+    const hiddenElements = document.querySelectorAll('.hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
+} else {
+    document.querySelectorAll('.hidden').forEach((el) => el.classList.add('show'));
+}
