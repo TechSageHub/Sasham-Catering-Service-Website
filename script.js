@@ -1,9 +1,10 @@
 // Hero Slideshow
 const heroImages = [
+    'images/hero-1.jpg',
+    'images/hero-2.jpg',
     'images/gallery-1.jpg',
     'images/gallery-2.jpg',
     'images/gallery-3.jpg',
-    'images/coleslaw.png',
 ];
 
 const heroBg = document.querySelector('.hero-bg');
@@ -13,9 +14,13 @@ let slides = [];
 // Initialize Slides
 function initSlideshow() {
     if (!heroBg) return;
-    heroBg.innerHTML = ''; // Clear existing content
+    heroBg.innerHTML = '';
+    slides = [];
 
     heroImages.forEach((imgSrc, index) => {
+        const preload = new Image();
+        preload.src = imgSrc;
+
         const slide = document.createElement('div');
         slide.classList.add('hero-slide');
         slide.style.backgroundImage = `url('${imgSrc}')`;
@@ -37,21 +42,15 @@ function changeHeroImage() {
     const currentSlide = slides[currentSlideIndex];
     const nextSlide = slides[nextSlideIndex];
 
-    // Reset all slides to default state (right) except current and next
-    // This ensures slides coming back from the left are moved to the right first
     slides.forEach((slide, index) => {
         if (index !== currentSlideIndex && index !== nextSlideIndex) {
             slide.classList.remove('active', 'prev');
-            // Force reflow to ensure the transform jump happens without animation if it was previously 'prev'
-            // However, simply removing classes should revert it to transform: translateX(100%) defined in CSS
         }
     });
 
-    // Move current to left
     currentSlide.classList.add('prev');
     currentSlide.classList.remove('active');
 
-    // Move next to center
     nextSlide.classList.add('active');
     nextSlide.classList.remove('prev');
 
@@ -63,18 +62,25 @@ initSlideshow();
 
 // Auto change every 5 seconds
 if (heroBg) {
-    setInterval(changeHeroImage, 5000);
+    setInterval(changeHeroImage, 6200);
 }
 
 // Navbar Scroll Effect
-window.addEventListener('scroll', function () {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.boxShadow = 'none';
+const navbar = document.querySelector('.navbar');
+
+function updateScrollEffects() {
+    if (navbar) {
+        navbar.classList.toggle('scrolled', window.scrollY > 24);
     }
-});
+
+    const activeSlide = document.querySelector('.hero-slide.active');
+    if (activeSlide && window.innerWidth > 768) {
+        activeSlide.style.backgroundPosition = `center calc(50% + ${window.scrollY * 0.08}px)`;
+    }
+}
+
+window.addEventListener('scroll', updateScrollEffects, { passive: true });
+updateScrollEffects();
 
 // Theme Toggle
 const themeToggle = document.getElementById('themeToggle');
@@ -124,6 +130,13 @@ if (hamburger && navMenu) {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
+
+    hamburger.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            hamburger.click();
+        }
+    });
 }
 
 document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
@@ -140,21 +153,26 @@ if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
-    const name = document.getElementById('userName').value;
-    const email = document.getElementById('userEmail').value;
-    const phone = document.getElementById('userPhone').value;
-    const eventType = document.getElementById('eventType').value;
-    const message = document.getElementById('userMessage').value;
+        const name = document.getElementById('userName').value;
+        const email = document.getElementById('userEmail').value;
+        const phone = document.getElementById('userPhone').value;
+        const eventType = document.getElementById('eventType').value;
+        const message = document.getElementById('userMessage').value;
 
-    const phoneNumber = "2347038096929"; // International format without +
+        const phoneNumber = "2347038096929";
 
-    const whatsappMessage = `*New Inquiry from Website*%0A%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Email:* ${email}%0A*Event Type:* ${eventType}%0A*Message:* ${message}`;
+        const whatsappMessage = [
+            '*New Inquiry from Website*',
+            '',
+            `*Name:* ${name}`,
+            `*Phone:* ${phone}`,
+            `*Email:* ${email}`,
+            `*Event Type:* ${eventType}`,
+            `*Message:* ${message}`,
+        ].join('\n');
 
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
-
-
-
-        window.open(whatsappURL, '_blank');
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        window.open(whatsappURL, '_blank', 'noopener,noreferrer');
     });
 }
 
@@ -164,9 +182,12 @@ if ('IntersectionObserver' in window) {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('show');
-                observer.unobserve(entry.target); // Animate only once
+                observer.unobserve(entry.target);
             }
         });
+    }, {
+        threshold: 0.16,
+        rootMargin: '0px 0px -8% 0px',
     });
 
     const hiddenElements = document.querySelectorAll('.hidden');

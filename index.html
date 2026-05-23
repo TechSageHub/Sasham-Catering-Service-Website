@@ -46,7 +46,7 @@
                 <img src="images/logo.png" alt="Sasham Catering Service" class="nav-logo">
             </a>
             <div class="nav-actions">
-                <div class="hamburger">
+                <div class="hamburger" aria-label="Open menu" role="button" tabindex="0">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -71,6 +71,7 @@
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
         <div class="container hero-content">
+            <span class="hero-kicker hidden">Sasham Catering Service</span>
             <h1 class="hero-title hidden">Delicious Catering for Every Occasion</h1>
             <p class="hero-subtitle hidden">Experience the finest taste and impeccable service for your weddings,
                 corporate
@@ -80,16 +81,21 @@
                 <a href="#services" class="btn btn-secondary">Our Services</a>
             </div>
         </div>
+        <div class="hero-scroll-indicator" aria-hidden="true">
+            <span></span>
+        </div>
     </header>
 
     <!-- About Section -->
     <section id="about" class="section about">
         <div class="container about-container">
-            <div class="about-image">
-                <!-- Placeholder for About Image -->
-                <div class="gallery-item hidden" style="height: 100%; border-radius: 10px; overflow: hidden;">
-                    <img src="images/about.jpg" alt="About Sasham Catering"
-                        style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="about-image hidden">
+                <div class="about-photo-frame">
+                    <img src="images/about.jpg" alt="About Sasham Catering">
+                    <div class="about-badge">
+                        <strong>Since 2010</strong>
+                        <span>Catering with a touch of class</span>
+                    </div>
                 </div>
             </div>
             <div class="about-text hidden">
@@ -99,10 +105,10 @@
                     dedicated to making your special moments unforgettable through exquisite culinary experiences.</p>
                 <p>We pride ourselves on:</p>
                 <ul class="about-list">
-                    <li><i class="fa-solid fa-check-circle"></i> Top-tier Hygiene & Quality Standards</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Experienced & Professional Staff</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Customized Menus for Every Palate</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Reliable & Timely Service</li>
+                    <li><i class="fa-solid fa-check-circle"></i><span>Top-tier Hygiene & Quality Standards</span></li>
+                    <li><i class="fa-solid fa-check-circle"></i><span>Experienced & Professional Staff</span></li>
+                    <li><i class="fa-solid fa-check-circle"></i><span>Customized Menus for Every Palate</span></li>
+                    <li><i class="fa-solid fa-check-circle"></i><span>Reliable & Timely Service</span></li>
                 </ul>
             </div>
         </div>
@@ -121,29 +127,29 @@
                     <h3>Wedding Catering</h3>
                     <p>Make your big day memorable with our elegant and delicious wedding menus.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card hidden">
                     <div class="icon-box"><i class="fa-solid fa-briefcase"></i></div>
                     <h3>Corporate Functions</h3>
                     <p>Impress your clients and colleagues with our professional executive lunches and meeting catering.
                     </p>
                 </div>
-                <div class="service-card">
+                <div class="service-card hidden">
                     <div class="icon-box"><i class="fa-solid fa-glass-cheers"></i></div>
                     <h3>Private Parties</h3>
                     <p>Enjoy your party while we handle the food. Perfect for birthdays, anniversaries, and family
                         reunions.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card hidden">
                     <div class="icon-box"><i class="fa-solid fa-mug-hot"></i></div>
                     <h3 class="service-title">Breakfast Meetings</h3>
                     <p>Start the day right with our fresh and energizing breakfast spreads.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card hidden">
                     <div class="icon-box"><i class="fa-solid fa-calendar-check"></i></div>
                     <h3 class="service-title">Event Catering</h3>
                     <p>Versatile catering solutions for any type of event, large or small.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card hidden">
                     <div class="icon-box"><i class="fa-solid fa-cake-candles"></i></div>
                     <h3 class="service-title">Birthday Parties</h3>
                     <p>Fun and tasty treats that guests of all ages will love.</p>
@@ -165,44 +171,44 @@
                         <h4>Smoky Jollof Rice</h4>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/gallery-2.jpg" alt="Pounded Yam & Egusi">
                     <div class="overlay">
                         <h4>Pounded Yam & Egusi</h4>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/gallery-3.jpg" alt="Fried Rice">
                     <div class="overlay">
                         <h4>Fried Rice</h4>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/ofada.png" alt="Ofada">
                     <div class="overlay">
                         <h4>Ofada</h4>
                     </div>
                 </div>
 
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/amala.png" alt="Amala & Ewedu and Gbegiri">
                     <div class="overlay">
                         <h4>Amala & Ewedu and Gbegiri</h4>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/assorted.png" alt="Assorted Pepper Soup">
                     <div class="overlay">
                         <h4>Assorted Pepper Soup</h4>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/coleslaw.png" alt="Coleslaw">
                     <div class="overlay">
                         <h4>Coleslaw</h4>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item hidden">
                     <img src="images/image.png" alt="Fried Plantain">
                     <div class="overlay">
                         <h4>Fried Plantain</h4>
@@ -255,12 +261,13 @@
                                 <option value="Private Party">Private Party</option>
                                 <option value="Other">Other</option>
                             </select>
-                            <div class="form-group">
-                                <textarea id="userMessage" placeholder="Event Details & Message" rows="5"
-                                    required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block"><i
-                                    class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="userMessage" placeholder="Event Details & Message" rows="5"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block"><i
+                                class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
                     </form>
                 </div>
             </div>
