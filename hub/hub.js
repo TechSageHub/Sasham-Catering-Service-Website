@@ -7,7 +7,21 @@
     { id: 5, name: "Bisi Adekunle", phone: "+234 812 555 0105", event: "Family gathering", date: "2026-11-14", guests: 45, status: "Contacted", notes: "Traditional dishes and drinks", color: "lavender", followup: "2026-10-17" },
     { id: 6, name: "Chidi Okafor", phone: "+234 814 555 0106", event: "Wedding", date: "2026-12-05", guests: 300, status: "Confirmed", notes: "Wedding reception catering", color: "peach", followup: "" }
   ];
-  let enquiries = sampleEnquiries.map(item => ({ ...item }));
+  const STORAGE_KEY = "sasham-catering-hub-preview-v1";
+  const loadEnquiries = () => {
+    try {
+      const saved = window.localStorage.getItem(STORAGE_KEY);
+      if (saved === null) {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleEnquiries));
+        return sampleEnquiries.map(item => ({ ...item }));
+      }
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed : sampleEnquiries.map(item => ({ ...item }));
+    } catch {
+      return sampleEnquiries.map(item => ({ ...item }));
+    }
+  };
+  let enquiries = loadEnquiries();
   const $ = (selector) => document.querySelector(selector);
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const initials = (name) => name.split(/\s+/).slice(0, 2).map(part => part[0] || "").join("").toUpperCase();
@@ -62,10 +76,49 @@
     $("#followupList").innerHTML = items.length ? items.map(item => `<div class="followup-item"><span class="followup-avatar">${escapeHtml(initials(item.name))}</span><div class="followup-copy"><strong>${escapeHtml(item.name)}</strong><p>${item.status === "Quoted" ? "Check whether they reviewed the quote" : "Follow up about " + escapeHtml(item.event.toLowerCase())}</p></div><span class="followup-date">${item.followup ? escapeHtml(formatDate(item.followup)) : "Set date"}</span></div>`).join("") : '<div class="empty-state">No follow-ups at the moment.</div>';
   }
 
-  function render() { renderRows(); renderStats(); renderUpcoming(); renderFollowups(); }
+  function saveEnquiries() {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(enquiries));
+      const notice = $("#saveNotice");
+      if (notice) notice.textContent = "Saved in this browser";
+    } catch {
+      const notice = $("#saveNotice");
+      if (notice) notice.textContent = "Could not save in this browser";
+    }
+  }
+
+  function render() {
+    renderRows();
+    renderStats();
+    renderUpcoming();
+    renderFollowups();
+    saveEnquiries();
+  }
+
+  function exportCsv() {
+    const columns = [
+      ["Customer", "name"], ["Phone", "phone"], ["Event", "event"],
+      ["Event date", "date"], ["Guests", "guests"], ["Status", "status"],
+      ["Follow-up date", "followup"], ["Notes", "notes"]
+    ];
+    const csvCell = value => '"' + String(value ?? "").replace(/"/g, '""') + '"';
+    const csv = [columns.map(([label]) => csvCell(label)).join(",")]
+      .concat(enquiries.map(item => columns.map(([, key]) => csvCell(item[key])).join(",")))
+      .join("\\r\\n");
+    const blob = new Blob(["\\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "sasham-enquiries-preview.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
 
   const dialog = $("#enquiryDialog");
   $("#addEnquiryBtn").addEventListener("click", () => dialog.showModal());
+  $("#exportCsvBtn").addEventListener("click", exportCsv);
   $("#closeDialog").addEventListener("click", () => dialog.close());
   $("#cancelDialog").addEventListener("click", () => dialog.close());
   $("#searchInput").addEventListener("input", renderRows);
