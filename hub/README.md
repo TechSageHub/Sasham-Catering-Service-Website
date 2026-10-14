@@ -11,7 +11,7 @@ This folder contains the first interactive dashboard and enquiry-management prot
 - No build step or third-party JavaScript dependency
 
 ## Important safety boundary
-This is a **front-end prototype only**. It has no authentication, authorization, server, or database. Sample records are fictional and edits exist only in the current browser session. Do not use it to store real customer, contact, quotation, booking, or payment data. Do not link this preview publicly as a private business portal.
+This is a **front-end prototype only**. It has no authentication, authorization, server, or database. Sample records are fictional and edits persist only in localStorage on the current browser and device; clearing browser data or switching devices can remove or hide them. Do not use it to store real customer, contact, quotation, booking, or payment data. Do not link this preview publicly as a private business portal.
 
 ## Before production
 1. Confirm the workflow and fields with the business owner.
