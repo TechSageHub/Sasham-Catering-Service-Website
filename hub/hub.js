@@ -101,7 +101,11 @@
       ["Event date", "date"], ["Guests", "guests"], ["Status", "status"],
       ["Follow-up date", "followup"], ["Notes", "notes"]
     ];
-    const csvCell = value => '"' + String(value ?? "").replace(/"/g, '""') + '"';
+    const csvCell = value => {
+      const raw = String(value ?? "");
+      const safe = /^[=+\-@\t\r]/.test(raw) ? "\u2019" + raw : raw;
+      return '"' + safe.replace(/"/g, '""') + '"';
+    };
     const csv = [columns.map(([label]) => csvCell(label)).join(",")]
       .concat(enquiries.map(item => columns.map(([, key]) => csvCell(item[key])).join(",")))
       .join("\\r\\n");
