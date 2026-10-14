@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211a16">
+  <meta name="description" content="Sasham Catering Hub enquiry management prototype.">
+  <title>Sasham Catering Hub | Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hub.css">
+  <script src="hub.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html" aria-label="Sasham Catering home">
+      <span class="brand-mark">S</span>
+      <span><strong>Sasham</strong><small>CATERING HUB</small></span>
+    </a>
+    <div class="workspace-label">WORKSPACE</div>
+    <nav class="side-nav" aria-label="Main navigation">
+      <a class="nav-link active" href="#overview"><span class="nav-icon">▦</span> Overview</a>
+      <a class="nav-link" href="#enquiries"><span class="nav-icon">✉</span> Enquiries <span class="nav-count" id="navEnquiryCount">6</span></a>
+      <a class="nav-link" href="#upcoming"><span class="nav-icon">▣</span> Upcoming events</a>
+      <a class="nav-link" href="#followups"><span class="nav-icon">↻</span> Follow-ups</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="help-card"><span class="help-icon">✦</span><strong>Keep every event organised</strong><p>Track enquiries, quotes and bookings in one place.</p></div>
+      <a class="back-link" href="../index.html">← View public website</a>
+    </div>
+  </aside>
+
+  <main class="main-content" id="overview">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <div class="breadcrumb">Workspace <span>/</span> <strong>Overview</strong></div>
+      <div class="topbar-right"><span class="preview-pill"><span></span> Preview mode</span><div class="avatar" aria-hidden="true">SC</div></div>
+    </header>
+
+    <section class="page-heading">
+      <div><p class="eyebrow">YOUR BUSINESS AT A GLANCE</p><h1>Good morning, Sasham <span>✦</span></h1><p class="subheading">Here’s what’s happening with your catering business.</p></div>
+      <button class="button button-primary" id="addEnquiryBtn"><span>＋</span> New enquiry</button>
+    </section>
+
+    <div class="demo-notice"><span class="notice-symbol">i</span><div><strong>Interactive preview, not connected to a secure database.</strong><p>Sample records are fictional. Changes stay in this browser session only. Do not enter real customer or payment information yet.</p></div></div>
+
+    <section class="stats-grid" aria-label="Business summary">
+      <article class="stat-card"><div class="stat-top"><span>Total enquiries</span><span class="stat-icon peach">✉</span></div><div class="stat-value" id="totalEnquiries">06</div><div class="stat-foot"><span class="stat-dot peach-dot"></span>All enquiries in this preview</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Awaiting a quote</span><span class="stat-icon gold">₦</span></div><div class="stat-value" id="awaitingQuotes">02</div><div class="stat-foot"><span class="stat-dot gold-dot"></span>Need pricing or a response</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Confirmed events</span><span class="stat-icon green">✓</span></div><div class="stat-value" id="confirmedEvents">02</div><div class="stat-foot"><span class="stat-dot green-dot"></span>Marked as confirmed</div></article>
+      <article class="stat-card"><div class="stat-top"><span>Follow-ups due</span><span class="stat-icon lavender">↻</span></div><div class="stat-value" id="followupsDue">02</div><div class="stat-foot"><span class="stat-dot lavender-dot"></span>Check in with these customers</div></article>
+    </section>
+
+    <div class="content-grid">
+      <section class="panel enquiries-panel" id="enquiries">
+        <div class="panel-heading"><div><h2>Recent enquiries</h2><p>Manage conversations from first contact to booking.</p></div><button class="text-button" id="viewAllBtn">View all <span>→</span></button></div>
+        <div class="toolbar"><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search name, event or phone" aria-label="Search enquiries"></label><select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option>New</option><option>Contacted</option><option>Quoted</option><option>Follow-up</option><option>Confirmed</option><option>Lost</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Event</th><th>Event date</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="enquiryRows"></tbody></table></div>
+        <div class="table-footer"><span id="resultsCount">Showing 6 enquiries</span><span class="table-hint">Select a status to update a record</span></div>
+      </section>
+
+      <aside class="right-column">
+        <section class="panel mini-panel" id="upcoming"><div class="panel-heading"><div><h2>Upcoming events</h2><p>Confirmed dates to prepare for.</p></div><span class="calendar-icon">▦</span></div><div id="upcomingList" class="upcoming-list"></div></section>
+        <section class="panel mini-panel" id="followups"><div class="panel-heading"><div><h2>Follow-up list</h2><p>Keep potential bookings moving.</p></div></div><div id="followupList" class="followup-list"></div></section>
+      </aside>
+    </div>
+    <footer class="app-footer"><span>© 2026 Sasham Catering Service</span><span>Made to help your business run smoothly <span class="heart">♥</span></span></footer>
+  </main>
+
+  <dialog id="enquiryDialog" class="enquiry-dialog">
+    <form id="enquiryForm">
+      <div class="dialog-heading"><div><p class="eyebrow">CUSTOMER MANAGEMENT</p><h2>Add an enquiry</h2></div><button type="button" class="close-button" id="closeDialog" aria-label="Close">×</button></div>
+      <p class="dialog-intro">Capture the basics so you can follow up and prepare a quote.</p>
+      <div class="form-grid">
+        <label>Customer name <input name="name" required maxlength="100" placeholder="e.g. Amina Bello"></label>
+        <label>Phone number <input name="phone" required type="tel" maxlength="30" placeholder="+234 ..."></label>
+        <label>Event type <select name="event" required><option value="">Choose event type</option><option>Wedding</option><option>Birthday</option><option>Corporate event</option><option>Private party</option><option>Family gathering</option><option>Other</option></select></label>
+        <label>Event date <input name="date" type="date" required></label>
+        <label>Guest estimate <input name="guests" type="number" min="1" max="100000" placeholder="e.g. 120"></label>
+        <label>Enquiry status <select name="status"><option>New</option><option>Contacted</option><option>Quoted</option><option>Follow-up</option><option>Confirmed</option><option>Lost</option></select></label>
+      </div>
+      <label class="full-label">Notes <textarea name="notes" rows="3" maxlength="500" placeholder="Menu preferences, location, budget range…"></textarea></label>
+      <div class="dialog-actions"><button type="button" class="button button-secondary" id="cancelDialog">Cancel</button><button class="button button-primary" type="submit">Add enquiry</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
