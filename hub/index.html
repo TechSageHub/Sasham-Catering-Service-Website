@@ -40,10 +40,10 @@
 
     <section class="page-heading">
       <div><p class="eyebrow">YOUR BUSINESS AT A GLANCE</p><h1>Good morning, Sasham <span>✦</span></h1><p class="subheading">Here’s what’s happening with your catering business.</p></div>
-      <button class="button button-primary" id="addEnquiryBtn"><span>＋</span> New enquiry</button>
+      <div class="heading-actions"><button class="button button-secondary" id="exportCsvBtn" type="button">Export CSV</button><button class="button button-primary" id="addEnquiryBtn"><span>＋</span> New enquiry</button></div>
     </section>
 
-    <div class="demo-notice"><span class="notice-symbol">i</span><div><strong>Interactive preview, not connected to a secure database.</strong><p>Sample records are fictional. Changes stay in this browser session only. Do not enter real customer or payment information yet.</p></div></div>
+    <div class="demo-notice"><span class="notice-symbol">i</span><div><strong>Interactive preview, not connected to a secure database.</strong><p>Sample records are fictional. This preview saves changes only in this browser on this device. Do not enter real customer or payment information yet.</p></div></div>
 
     <section class="stats-grid" aria-label="Business summary">
       <article class="stat-card"><div class="stat-top"><span>Total enquiries</span><span class="stat-icon peach">✉</span></div><div class="stat-value" id="totalEnquiries">06</div><div class="stat-foot"><span class="stat-dot peach-dot"></span>All enquiries in this preview</div></article>
@@ -78,6 +78,7 @@
         <label>Event type <select name="event" required><option value="">Choose event type</option><option>Wedding</option><option>Birthday</option><option>Corporate event</option><option>Private party</option><option>Family gathering</option><option>Other</option></select></label>
         <label>Event date <input name="date" type="date" required></label>
         <label>Guest estimate <input name="guests" type="number" min="1" max="100000" placeholder="e.g. 120"></label>
+        <label>Follow-up date <input name="followup" type="date"></label>
         <label>Enquiry status <select name="status"><option>New</option><option>Contacted</option><option>Quoted</option><option>Follow-up</option><option>Confirmed</option><option>Lost</option></select></label>
       </div>
       <label class="full-label">Notes <textarea name="notes" rows="3" maxlength="500" placeholder="Menu preferences, location, budget range…"></textarea></label>
